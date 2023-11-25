@@ -47,7 +47,7 @@ export default {
   });
   
   await ocspReq.createForCertificate(certCl, {
-    hashAlgorithm: "SHA-1",
+    hashAlgorithm: "SHA-256",
     issuerCertificate: certIs,
   });
   
