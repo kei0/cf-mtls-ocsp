@@ -4,7 +4,7 @@ This is a test script to add an OCSP verification option for mTLS client certifi
 
 ## Usage
 
-1. Forward a client certificate to a Worker
+### Forward a client certificate to a Worker
 
 It is to expose a client certificate to a Worker via `cf-client-cert-der-base64` request header.
 
@@ -21,17 +21,21 @@ https://developers.cloudflare.com/ssl/client-certificates/enable-mtls/#forward-a
 ```
 
 
-2. Edit wrangler.toml
+### Edit wrangler.toml
 
- `routes`: replace it with your mTLS application URL
+`routes`:
 
- `vars`: `CA_CLIENT_ISSUER` - replace it with your client certificate issuer
+replace it with your mTLS application URL
 
-         `CA_OCSP_ROOT` - replace it with your OCSP responder's issuer
+`vars`: 
 
-         * remove BEGIN/END lines and LF from a PEM
+`CA_CLIENT_ISSUER` - replace it with your client certificate issuer
+
+`CA_OCSP_ROOT` - replace it with your OCSP responder's issuer
+
+* remove BEGIN/END lines and LF from a PEM
 
 
-3. Install packages asn1js and pkijs
+### Install packages asn1js and pkijs
 
 
