@@ -1,3 +1,14 @@
+/**
+ * THIS SOFTWARE IS PROVIDED BY CLOUDFLARE "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL CLOUDFLARE BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES  (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+ * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 import * as asn1js from 'asn1js'
 import { getRandomValues, Certificate, Extension, OCSPRequest, OCSPResponse,  GeneralName, BasicOCSPResponse } from 'pkijs';
 
@@ -47,10 +58,12 @@ export default {
   });
   
   await ocspReq.createForCertificate(certCl, {
-    hashAlgorithm: "SHA-256",
+    // hashAlgorithm: "SHA-256",
+    hashAlgorithm: "SHA-1",
     issuerCertificate: certIs,
   });
   
+/*
   const nonce = getRandomValues(new Uint8Array(10));
   ocspReq.tbsRequest.requestExtensions = [
     new Extension({
@@ -58,6 +71,7 @@ export default {
       extnValue: new asn1js.OctetString({ valueHex: nonce.buffer }).toBER(),
     })
   ];
+*/
   
   // Encode OCSP request
   
@@ -72,7 +86,7 @@ export default {
   const oRequest = new Request(ocspUrl, { method: 'POST', body: ocspReqRaw });
   oRequest.headers.set('content-type', 'application/ocsp-request');
   const oResponce = await fetch(oRequest);
-
+  console.log(oResponce.headers.get('content-length'));
   // Parse OCSP response
 
   const ocspRespRaw = await oResponce.arrayBuffer();
@@ -101,7 +115,8 @@ export default {
   const oStat = certstatus.status;
     switch (oStat) {
     case 0:
-      return new Response("OCSP Good");
+      //return new Response("OCSP Good");
+      return fetch(request);
       break;
     case 1:
       return new Response("OCSP Revoked");
