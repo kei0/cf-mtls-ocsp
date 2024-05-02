@@ -1,4 +1,4 @@
-# cloudflare-mtls-ocsp
+# cf-mtls-ocsp
 
 This is a test script to add an OCSP verification option for Cloudflare mTLS client certificates. It can be attached to Cloudflare proxy endpoints protected by API Shield or Access mTLS with BYO CA.
 
